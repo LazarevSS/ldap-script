@@ -88,4 +88,16 @@ public class Utils {
             writer.write(ldifEntry.getDn().toString() + "\n");
         }
     }
+
+    static LdifEntry snAttributeHandler(LdifEntry ldifEntry, FileWriter writer) throws LdapException, IOException {
+        if (ldifEntry.get("sn") == null) {
+            return ldifEntry;
+        }
+        if (ldifEntry.get("sn").get().toString().isEmpty()) {
+            writer.write(ldifEntry.getDn().toString() + "\n");
+            return null;
+        } else {
+            return ldifEntry;
+        }
+    }
 }

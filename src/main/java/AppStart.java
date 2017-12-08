@@ -18,8 +18,10 @@ public class AppStart {
         }
         File errUsersCertList = new File("errorCertificateUsers.txt");
         File errUsersMailList = new File("errorMailUsers.txt");
+        File errUsersSnList = new File("errorSnUsers.txt");
         FileWriter writerForErrUsersCert = new FileWriter(errUsersCertList);
         FileWriter writerForErrUsersMail = new FileWriter(errUsersMailList);
+        FileWriter writerForErrUsersSn = new FileWriter(errUsersSnList);
         for (File file : listOfFiles) {
             if (file.getName().endsWith(".ldif")) {
                 File newFile = new File("newFiles/" + file.getName());
@@ -35,13 +37,17 @@ public class AppStart {
                     Utils.userCertificateHandler(ldifEntry, writerForErrUsersCert);
                     Utils.memberAttributeHandler(ldifEntry);
                     Utils.mailAttributeHandler(ldifEntry, writerForErrUsersMail);
+                    ldifEntry = Utils.snAttributeHandler(ldifEntry, writerForErrUsersSn);
 
-                    writerForNewLdifEntry.write(ldifEntry.toString());
+                    if (ldifEntry != null) {
+                        writerForNewLdifEntry.write(ldifEntry.toString());
+                    }
                 }
                 writerForNewLdifEntry.close();
             }
         }
         writerForErrUsersMail.close();
         writerForErrUsersCert.close();
+        writerForErrUsersSn.close();
     }
 }
