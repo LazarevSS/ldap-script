@@ -54,7 +54,11 @@ public class Utils {
         String[] attributeValues = ldifEntry.get("member").toString().replace("member: ", "").split("\n");
         String[] newAttributeValues = new String[attributeValues.length];
         for (int i = 0; i < attributeValues.length; i++) {
+            String cn = attributeValues[i].split(",cn")[0];
+            String escapedCharInCn = cn.replace(",", "\\,");
+            newAttributeValues[i] = attributeValues[i].replace(cn, escapedCharInCn);
             newAttributeValues[i] = attributeValues[i].replace("cn=pgz,o=pgz", "ou=pgz,dc=zakupki,dc=gov,dc=ru");
+
         }
         ldifEntry.getEntry().remove(ldifEntry.getEntry().get("member"));
         ldifEntry.getEntry().add("member", newAttributeValues);
