@@ -6,7 +6,7 @@
 
     <groupId>ldapScript</groupId>
     <artifactId>app</artifactId>
-    <version>4</version>
+    <version>5</version>
     <packaging>jar</packaging>
 
     <build>
