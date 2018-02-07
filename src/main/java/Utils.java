@@ -56,9 +56,10 @@ public class Utils {
         for (int i = 0; i < attributeValues.length; i++) {
             newAttributeValues[i] = attributeValues[i].replace("cn=pgz,o=pgz", "ou=pgz,dc=zakupki,dc=gov,dc=ru");
             String cn = newAttributeValues[i].split(",ou")[0];
-            String escapedCharInCn = cn.replace(",", "\\,");
-            newAttributeValues[i] = newAttributeValues[i].replace(cn, escapedCharInCn);
-
+            if (!cn.contains("\\,")) {
+                String escapedCharInCn = cn.replace(",", "\\,");
+                newAttributeValues[i] = newAttributeValues[i].replace(cn, escapedCharInCn);
+            }
         }
         ldifEntry.getEntry().remove(ldifEntry.getEntry().get("member"));
         ldifEntry.getEntry().add("member", newAttributeValues);
